@@ -32,7 +32,7 @@ const (
 
 // expandLabel implements HKDF-Expand-Label from RFC 8446, Section 7.1.
 func (c *cipherSuiteTLS13) expandLabel(secret []byte, label string, context []byte, length int) []byte {
-	var hkdfLabel cryptobyte.Builder
+	hkdfLabel := cryptobyte.NewBuilder(make([]byte, 0, 2+1+6+len(label)+1+len(context)))
 	hkdfLabel.AddUint16(uint16(length))
 	hkdfLabel.AddUint8LengthPrefixed(func(b *cryptobyte.Builder) {
 		b.AddBytes([]byte("tls13 "))
